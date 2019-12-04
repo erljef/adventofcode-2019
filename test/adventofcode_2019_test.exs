@@ -49,4 +49,16 @@ defmodule Adventofcode2019Test do
       """
     assert Day3.lowest_total_distance(Day3.parse_file(file)) == 410
   end
+
+  test "day4 part 1" do
+    assert Day4.valid?(111111)
+    assert !Day4.valid?(223450)
+    assert !Day4.valid?(123789)
+  end
+
+  test "day4 part 2" do
+    assert Day4.valid_part2?(112233)
+    assert !Day4.valid_part2?(123444)
+    assert Day4.valid_part2?(111122)
+  end
 end
