@@ -66,8 +66,49 @@ defmodule Day5 do
 
   def exec_inst(%{:memory => memory, :pc => pc} = runtime, 4, _) do
     address = Enum.at(memory, pc + 1)
-    output = Enum.at(memory, address)
-    %{runtime | :memory => memory, :pc => pc + 2, :output => output}
+    %{runtime | :memory => memory, :pc => pc + 2, :output => Enum.at(memory, address)}
+  end
+
+  def exec_inst(%{:memory => memory, :pc => pc} = runtime, 5, modes) do
+    jump_if_true = value(memory, pc + 1, mode(modes, 0))
+    jump_to = value(memory, pc + 2, mode(modes, 1))
+    if jump_if_true != 0 do
+      %{runtime | :pc => jump_to}
+    else
+      %{runtime | :pc => pc + 3}
+    end
+  end
+
+  def exec_inst(%{:memory => memory, :pc => pc} = runtime, 6, modes) do
+    jump_if_false = value(memory, pc + 1, mode(modes, 0))
+    jump_to = value(memory, pc + 2, mode(modes, 1))
+    if jump_if_false == 0 do
+      %{runtime | :pc => jump_to}
+    else
+      %{runtime | :pc => pc + 3}
+    end
+  end
+
+  def exec_inst(%{:memory => memory, :pc => pc} = runtime, 7, modes) do
+    first = value(memory, pc + 1, mode(modes, 0))
+    second = value(memory, pc + 2, mode(modes, 1))
+    address = Enum.at(memory, pc + 3)
+    if first < second do
+      %{runtime | :memory => memory |> modify(address, 1), :pc => pc + 4}
+    else
+      %{runtime | :memory => memory |> modify(address, 0), :pc => pc + 4}
+    end
+  end
+
+  def exec_inst(%{:memory => memory, :pc => pc} = runtime, 8, modes) do
+    first = value(memory, pc + 1, mode(modes, 0))
+    second = value(memory, pc + 2, mode(modes, 1))
+    address = Enum.at(memory, pc + 3)
+    if first == second do
+      %{runtime | :memory => memory |> modify(address, 1), :pc => pc + 4}
+    else
+      %{runtime | :memory => memory |> modify(address, 0), :pc => pc + 4}
+    end
   end
 
   def exec_inst(_, _, inst, _) do
@@ -80,7 +121,7 @@ defmodule Day5 do
   end
 
   def solution do
-    IO.puts("#{from_file("day5_input.txt") |> run(1) |> Map.get(:output) }")
-    #IO.puts("#{from_file("day5_input.txt") }")
+    IO.puts("#{from_file("day5_input.txt") |> run(1) |> Map.get(:output)}")
+    IO.puts("#{from_file("day5_input.txt") |> run(5) |> Map.get(:output)}")
   end
 end

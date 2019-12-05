@@ -66,4 +66,24 @@ defmodule Adventofcode2019Test do
     assert Day5.run([1002, 4, 3, 4, 33], 0) == %{input: 0, memory: [1002, 4, 3, 4, 99], output: nil, pc: 4}
     assert Day5.run([3,0,4,0,99], 123) == %{input: 123, memory: [123, 0, 4, 0, 99], output: 123, pc: 4}
   end
+
+  test "day 5 part 2" do
+    assert Day5.run([3,9,8,9,10,9,4,9,99,-1,8], 8) |> Map.get(:output) == 1
+    assert Day5.run([3,9,8,9,10,9,4,9,99,-1,8], 5) |> Map.get(:output) == 0
+
+    assert Day5.run([3,9,7,9,10,9,4,9,99,-1,8], 7) |> Map.get(:output) == 1
+    assert Day5.run([3,9,7,9,10,9,4,9,99,-1,8], 8) |> Map.get(:output) == 0
+
+    assert Day5.run([3,3,1108,-1,8,3,4,3,99], 8) |> Map.get(:output) == 1
+    assert Day5.run([3,3,1108,-1,8,3,4,3,99], 5) |> Map.get(:output) == 0
+
+    assert Day5.run([3,3,1107,-1,8,3,4,3,99], 7) |> Map.get(:output) == 1
+    assert Day5.run([3,3,1107,-1,8,3,4,3,99], 8) |> Map.get(:output) == 0
+
+    assert Day5.run([3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9], 5) |> Map.get(:output) == 1
+    assert Day5.run([3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9], 0) |> Map.get(:output) == 0
+
+    assert Day5.run([3,3,1105,-1,9,1101,0,0,12,4,12,99,1], 5) |> Map.get(:output) == 1
+    assert Day5.run([3,3,1105,-1,9,1101,0,0,12,4,12,99,1], 0) |> Map.get(:output) == 0
+  end
 end
