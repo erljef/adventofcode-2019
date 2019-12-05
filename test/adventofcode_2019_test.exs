@@ -61,4 +61,9 @@ defmodule Adventofcode2019Test do
     assert !Day4.valid_part2?(123444)
     assert Day4.valid_part2?(111122)
   end
+
+  test "day 5 part 1" do
+    assert Day5.run([1002, 4, 3, 4, 33], 0) == %{input: 0, memory: [1002, 4, 3, 4, 99], output: nil, pc: 4}
+    assert Day5.run([3,0,4,0,99], 123) == %{input: 123, memory: [123, 0, 4, 0, 99], output: 123, pc: 4}
+  end
 end
