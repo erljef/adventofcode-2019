@@ -86,4 +86,44 @@ defmodule Adventofcode2019Test do
     assert Day5.run([3,3,1105,-1,9,1101,0,0,12,4,12,99,1], 5) |> Map.get(:output) == 1
     assert Day5.run([3,3,1105,-1,9,1101,0,0,12,4,12,99,1], 0) |> Map.get(:output) == 0
   end
+
+  test "day 6 part 1" do
+    input = """
+    COM)B
+    B)C
+    C)D
+    D)E
+    E)F
+    B)G
+    G)H
+    D)I
+    E)J
+    J)K
+    K)L
+    """
+    |> String.split
+    |> Day6.parse_input
+    assert Day6.nr_of_orbits(input) == 42
+  end
+
+  test "day 6 part 2" do
+    input = """
+    COM)B
+    B)C
+    C)D
+    D)E
+    E)F
+    B)G
+    G)H
+    D)I
+    E)J
+    J)K
+    K)L
+    K)YOU
+    I)SAN
+    """
+    |> String.split
+    |> Day6.parse_input
+    assert Day6.orbital_transfers(input) == 4
+  end
 end
