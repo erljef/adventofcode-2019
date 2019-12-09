@@ -147,4 +147,13 @@ defmodule Adventofcode2019Test do
     input = "0222112222120000" |> String.graphemes |> Enum.map(&String.to_integer/1)
     assert Day8.create_image(input, 2, 2) |> Day8.decode == [[0, 1], [1, 0]]
   end
+
+  test "day 9 part 1" do
+    assert Day9.run([109, 1, 204, -1, 1001, 100, 1, 100, 1008, 100, 16, 101, 1006, 101, 0, 99]) |> Map.get(:output)
+           == [109, 1, 204, -1, 1001, 100, 1, 100, 1008, 100, 16, 101, 1006, 101, 0, 99]
+
+    assert Day9.run([1102,34915192,34915192,7,4,7,99,0]) |> Map.get(:output) |> List.first |> Integer.digits |> length == 16
+
+    assert Day9.run([104,1125899906842624,99]) |> Map.get(:output) |> List.first == 1125899906842624
+  end
 end
