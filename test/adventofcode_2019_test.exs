@@ -142,4 +142,9 @@ defmodule Adventofcode2019Test do
     input = "123456789012" |> String.graphemes |> Enum.map(&String.to_integer/1)
     assert Day8.create_image(input, 3, 2) == [[[1, 2, 3], [4, 5, 6]], [[7, 8, 9], [0, 1, 2]]]
   end
+
+  test "day 8 part 2" do
+    input = "0222112222120000" |> String.graphemes |> Enum.map(&String.to_integer/1)
+    assert Day8.create_image(input, 2, 2) |> Day8.decode == [[0, 1], [1, 0]]
+  end
 end
