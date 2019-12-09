@@ -20,13 +20,16 @@ defmodule Day7 do
 
   def execute(%{:memory => memory, :pc => pc} = runtime) do
     {modes, inst} = read_instruction(Enum.at(memory, pc))
-    if inst == 99 do
-      runtime
-    else
-      case exec_inst(runtime, inst, modes) do
-        %{} = runtime -> execute(runtime)
-        :error -> runtime
-      end
+    cond do
+      inst == 99 ->
+        Map.put(runtime, :done, true)
+      inst == 3 && runtime.inputs == [] ->
+        Map.put(runtime, :done, false)
+      true ->
+        case exec_inst(runtime, inst, modes) do
+          %{} = runtime -> execute(runtime)
+          :error -> runtime
+        end
     end
   end
 
@@ -138,7 +141,37 @@ defmodule Day7 do
   def permutations([]), do: [[]]
   def permutations(list), do: for elem <- list, rest <- permutations(list -- [elem]), do: [elem | rest]
 
+  def feedback_thruster_signal(program, inputs) do
+    signal = Stream.cycle([inputs])
+              |> Enum.reduce_while(%{}, fn sequence, program_states ->
+                states = Enum.reduce(sequence, program_states, fn input, program_states ->
+                  program_state = Map.get(program_states, input, %{:memory => program, :pc => 0, :inputs => [], :output => 0})
+                  prev_output = Map.get(program_states, :output, 0)
+                  next_inputs = if Map.has_key?(program_states, input) do [prev_output] else [input, prev_output] end
+
+                  new_state = execute(%{program_state | :inputs => next_inputs})
+                  program_states |> Map.put(input, new_state) |> Map.put(:output, new_state.output)
+                end)
+
+                is_done = states |> Map.split(inputs) |> elem(0) |> Map.values |> Enum.map(fn %{:done => done} -> done end) |> Enum.any?
+                if is_done do
+                  {:halt, states}
+                else
+                  {:cont, states}
+                end
+              end)
+              |> Map.get(:output)
+    {signal, inputs}
+  end
+
+  def max_feedback_thruster_signal(program) do
+    permutations(5..9 |> Enum.to_list)
+    |> Enum.map(&(feedback_thruster_signal(program, &1)))
+    |> Enum.max_by(fn {signal, _} -> signal end)
+  end
+
   def solution do
     IO.puts("#{from_file("day7_input.txt") |> max_thruster_signal |> inspect}")
+    IO.puts("#{from_file("day7_input.txt") |> max_feedback_thruster_signal |> inspect}")
   end
 end
