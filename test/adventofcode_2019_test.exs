@@ -156,4 +156,16 @@ defmodule Adventofcode2019Test do
 
     assert Day9.run([104,1125899906842624,99]) |> Map.get(:output) |> List.first == 1125899906842624
   end
+
+  test "day 10 part 1" do
+    input =
+      """
+      .#..#
+      .....
+      #####
+      ....#
+      ...##
+      """
+    assert input |> String.split |> Enum.to_list |> Day10.new_map |> Day10.most_visible == {{3, 4}, 8}
+  end
 end
