@@ -233,4 +233,19 @@ defmodule Adventofcode2019Test do
     |> Day12.initial_velocity
     |> Day12.steps(10)
   end
+
+  test "day 12 part 2" do
+    moons =
+      """
+      <x=-8, y=-10, z=0>
+      <x=5, y=5, z=10>
+      <x=2, y=-7, z=3>
+      <x=9, y=-8, z=-3>
+      """
+      |> String.split("\n", trim: true)
+      |> Enum.map(&Day12.parse_row/1)
+      |> Day12.initial_velocity
+
+    assert Day12.cycle(moons) == 4686774924
+  end
 end
