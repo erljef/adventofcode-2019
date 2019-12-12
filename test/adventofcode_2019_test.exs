@@ -220,4 +220,17 @@ defmodule Adventofcode2019Test do
       """
     assert input |> String.split |> Enum.to_list |> Day10.new_map |> Day10.vaporize(200) == {8, 2}
   end
+
+  test "day 12 part 1" do
+    """
+    <x=-1, y=0, z=2>
+    <x=2, y=-10, z=-7>
+    <x=4, y=-8, z=8>
+    <x=3, y=5, z=-1>
+    """
+    |> String.split("\n", trim: true)
+    |> Enum.map(&Day12.parse_row/1)
+    |> Day12.initial_velocity
+    |> Day12.steps(10)
+  end
 end
